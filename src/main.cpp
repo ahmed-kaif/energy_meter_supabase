@@ -3,8 +3,8 @@
 #include <WiFi.h>
 
 // Add you Wi-Fi credentials
-const char *ssid = "Storm";
-const char *password = "curlymango522#";
+const char *ssid = "Desh";
+const char *password = "12354678";
 
 // Supabase credentials
 const char *supabaseUrl = "";
@@ -15,8 +15,8 @@ Supabase supabase;
 String tableName = "energy";
 
 // Pin definitions
-const int currentPin = 36; // ACS712
-const int voltagePin = 39; // ZMPT101B
+const int currentPin = 39; // ACS712
+const int voltagePin = 36; // ZMPT101B
 const int ledPin = 2;
 
 // Energy variables
@@ -105,12 +105,12 @@ void loop() {
 
   // Apply calibration factor
   current *= calibrationFactor;
-  current = 60 / voltage; // Note: This seems like a temporary calculation
+  current = 60 / voltage;
 
-  // Ignore noise below the threshold
-  if (abs(current) < noiseThreshold) {
-    current = 0; // Set current to zero
-  }
+  // // Ignore noise below the threshold
+  // if (abs(current) < noiseThreshold) {
+  //   current = 0; // Set current to zero
+  // }
 
   // Calculate power and energy
   float power = voltage * current;      // Watts
@@ -136,7 +136,7 @@ void loop() {
     digitalWrite(ledPin, HIGH);
 
     // change the correct columns names you create in your table
-    String jsonData = "{\"total_energy\": " + String(totalEnergy) + " }";
+    String jsonData = "{\"total_energy_joules\": " + String(totalEnergy) + " }";
 
     // sending data to supabase
     int response = supabase.insert(tableName, jsonData, false);
